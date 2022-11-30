@@ -1,5 +1,12 @@
-﻿@{
+﻿@using Microsoft.EntityFrameworkCore.Storage
+@using ecom.CustomLogic;
+
+@model IEnumerable<ecom.Models.Product>
+
+@{
     ViewData["Title"] = "Home Page";
+    string[] daysweek = new string [] { "monday", "tuesday", "wednesday", "thursday", "friday" };
+    Mathfunctions mylogic = new Mathfunctions();
 }
 
 <div class="slider">
@@ -7,7 +14,7 @@
         <img src="~/images/homeslide2.jpg" alt="">
         <div class="info">
             <h2>Computers</h2>
-            <p>Get the latest in PC tech at bargain prices!</p>
+            <p>Get the latest PC's in gaming, development or personal use</p>
             <div class="slider-buttons">
                 <a asp-area="" asp-controller="Home" asp-action="Computers">Shop Now</a>
             </div>
@@ -17,7 +24,7 @@
         <img src="~/images/homeslide4.jpg" alt="">
         <div class="info">
             <h2>Gaming</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <p>Sony, Microsoft and Nintendo </p>
             <div class="slider-buttons">
                 <a asp-area="" asp-controller="Home" asp-action="Gaming">Shop Now</a>
             </div>
@@ -27,7 +34,7 @@
         <img src="~/images/homeslide3.jpg" alt="">
         <div class="info">
             <h2>Phones</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            <p>Stylish, Modern and Affordable Smartphones </p>
             <div class="slider-buttons">
                 <a asp-area="" asp-controller="Home" asp-action="Phones">Shop Now</a>
             </div>
@@ -39,3 +46,50 @@
         <div class="btn"></div>
     </div>
 </div>
+
+<div class="confidence-panel">
+    <h3>Shop with Confidence</h3>
+    <p>At Ecom.com we aim to get our products shipped to our customers with speed and care. Ensuring our products are in perfect condition before sending them off so that every customer is a happy customer.</p>
+</div>
+
+@if(Model != null){
+    <div class="trending-products">
+        <h3>Best Sellers</h3>
+        <div class="featured-panel">
+            <div class="row">
+                @foreach(var data in Model)
+                {
+                    <div class="featured-product col-5 col-sm-5 col-md-3">
+                        <div class="icon">
+                            <img src="~/images/@data.image">
+                        </div>
+                        <div class="featured-description">
+                            <div class="featured-title">
+                                @data.product_name
+                            </div>
+                            <div class="featured-price">
+                                @if(@data.discount > 0){ //if the product has a discount it will show the new price and old price.
+                                    <div class="old-price">£@data.price</div>
+                                    <div class="new-price">
+                                        <div class="money-sign">£</div>
+                                        <div>@mylogic.discounted_price(@data.discount, @data.price)</div>
+                                        <div class="money-sign">@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="new-price">
+                                        <div class="money-sign">£</div>
+                                        <div>@mylogic.discounted_price(@data.discount, @data.price)</div>
+                                        <div class="money-sign">@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    @*<h2>@data.brand</h2>*@
+                }
+            </div>
+        </div>
+    </div>
+}

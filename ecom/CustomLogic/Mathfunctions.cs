@@ -16,13 +16,17 @@
 
         public string discounted_price_cents(int discount, double price)
         {
-            double discount_percentage = (double)discount / 100;
+            double discount_percentage = (double) discount / 100;
             double savings = discount_percentage * price;
             double newPrice = price - savings;
 
             newPrice = Math.Round(newPrice, 2);
             newPrice = Math.Round(100 * (newPrice - Math.Round(newPrice, 0)), 0);
 
+            if (newPrice == -1)
+            {
+                return "00";
+            }
             return newPrice.ToString();
         }
     }

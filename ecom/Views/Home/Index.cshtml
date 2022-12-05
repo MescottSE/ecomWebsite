@@ -1,6 +1,5 @@
 ﻿@using Microsoft.EntityFrameworkCore.Storage
 @using ecom.CustomLogic;
-
 @model IEnumerable<ecom.Models.Product>
 
 @{
@@ -40,8 +39,30 @@
             </div>
         </div>
     </div>
+    <div class="slide">
+        <img src="~/images/homeslide5.jpg" alt="">
+        <div class="info">
+            <h2>Televisions</h2>
+            <p>Ultra HD Modern and Extreme Realism Quality</p>
+            <div class="slider-buttons">
+                <a asp-area="" asp-controller="Home" asp-action="Phones">Shop Now</a>
+            </div>
+        </div>
+    </div>
+    <div class="slide">
+        <img src="~/images/homeslide6.jpg" alt="">
+        <div class="info">
+            <h2>Toys</h2>
+            <p>Awaken the inner kid in you </p>
+            <div class="slider-buttons">
+                <a asp-area="" asp-controller="Home" asp-action="Phones">Shop Now</a>
+            </div>
+        </div>
+    </div>
     <div class="slider-nav">
         <div class="btn active"></div>
+        <div class="btn"></div>
+        <div class="btn"></div>
         <div class="btn"></div>
         <div class="btn"></div>
     </div>
@@ -59,7 +80,7 @@
             <div class="row">
                 @foreach(var data in Model)
                 {
-                    <div class="featured-product col-5 col-sm-5 col-md-3">
+                    <div class="featured-product col-6 col-sm-5 col-md-3">
                         <div class="icon">
                             <img src="~/images/@data.image">
                         </div>
@@ -69,26 +90,91 @@
                             </div>
                             <div class="featured-price">
                                 @if(@data.discount > 0){ //if the product has a discount it will show the new price and old price.
-                                    <div class="old-price">£@data.price</div>
                                     <div class="new-price">
                                         <div class="money-sign">£</div>
                                         <div>@mylogic.discounted_price(@data.discount, @data.price)</div>
-                                        <div class="money-sign">@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                                        <div class="money-sign">.@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
                                     </div>
+                                    <div class="old-price">£@data.price</div>
                                 }
                                 else
                                 {
                                     <div class="new-price">
                                         <div class="money-sign">£</div>
                                         <div>@mylogic.discounted_price(@data.discount, @data.price)</div>
-                                        <div class="money-sign">@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                                        <div class="money-sign">.@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
                                     </div>
                                 }
                             </div>
+                            <div class="add-to-basket">Add to Basket</div>
                         </div>
                     </div>
-                    @*<h2>@data.brand</h2>*@
                 }
+            </div>
+        </div>
+    </div>
+    <div class="home-categories">
+        <h3>Shop by Category</h3>
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="home-category">
+                    <div class="details">
+                        <h5>Computers</h5>
+                        <div class="para">Apple / HP / Dell</div>
+                        <div class="category-button">Shop Now</div>
+                    </div>
+                    <div class="icon">
+                        <img src="~/images/alien.png">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="home-category">
+                    <div class="details">
+                        <h5>Gaming</h5>
+                        <div class="para">Sony / Microsoft / Nintendo</div>
+                        <div class="category-button">Shop Now</div>
+                    </div>
+                    <div class="icon">
+                        <img src="~/images/ps5.png">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <div class="home-category">
+                    <div class="details">
+                        <h5>Phones</h5>
+                        <div class="para">Samsung / Iphone / Huawei</div>
+                        <div class="category-button">Shop Now</div>
+                    </div>
+                    <div class="icon">
+                        <img src="~/images/sam.jpg">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="home-category">
+                    <div class="details">
+                        <h5>Televisions</h5>
+                        <div class="para">Sony / LG / Apple</div>
+                        <div class="category-button">Shop Now</div>
+                    </div>
+                    <div class="icon">
+                        <img src="~/images/tele.jpg">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="home-category">
+                    <div class="details">
+                        <h5>Toys</h5>
+                        <div class="para">Drones / Cars / Boats</div>
+                        <div class="category-button">Shop Now</div>
+                    </div>
+                    <div class="icon">
+                        <img src="~/images/drone.jpg">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

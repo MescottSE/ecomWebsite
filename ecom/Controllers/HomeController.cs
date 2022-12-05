@@ -50,7 +50,8 @@ namespace ecom.Controllers
                         price = Convert.ToDouble(sqlReader["price"]),
                         quantity = Convert.ToInt32(sqlReader["quantity"]),
                         discount = Convert.ToInt32(sqlReader["discount"]),
-                        image = sqlReader["image"].ToString()
+                        image = sqlReader["image"].ToString(),
+                        category = sqlReader["category"].ToString()
                         
                     });
                 }
@@ -67,17 +68,32 @@ namespace ecom.Controllers
 
         public IActionResult Computers()
         {
-            return View();
+            fetchProducts();
+            return View(products);
         }
 
         public IActionResult Gaming()
         {
-            return View();
+            fetchProducts();
+            return View(products);
         }
 
         public IActionResult Phones()
         {
-            return View();
+            fetchProducts();
+            return View(products);
+        }
+
+        public IActionResult Televisions()
+        {
+            fetchProducts();
+            return View(products);
+        }
+
+        public IActionResult Toys()
+        {
+            fetchProducts();
+            return View(products);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

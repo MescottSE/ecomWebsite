@@ -15,6 +15,6 @@ namespace ecom.Models
         public int quantity { get; set; }
         public int discount { get; set; }
         public string image { get; set; }
-
+        public string category { get; set; }
     }
 }

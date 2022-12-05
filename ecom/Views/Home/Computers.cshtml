@@ -1,6 +1,29 @@
-﻿@{
-    ViewData["Title"] = "Computers";
+﻿@using ecom.CustomLogic;
+@model IEnumerable<ecom.Models.Product>
+
+@{
+    var page = "Computers";
+    ViewData["Title"] = page;
+
+    Mathfunctions mylogic = new Mathfunctions();
 }
+
 <h1>@ViewData["Title"]</h1>
+    @foreach(var data in Model)
+    {
+        @if(@data.category == @page)
+        {
+            <div class="category-product">
+                <img src="~/images/@data.image">
+                <div class="details">
+                    <div class="heading">@data.product_name</div>
+                    <div class="description">@data.description</div>
+                </div>
+            </div>
+            <div>@data.brand</div>
+            <div>@data.category</div>
+
+        }
+    }
 
 <p>Im the computers products</p>

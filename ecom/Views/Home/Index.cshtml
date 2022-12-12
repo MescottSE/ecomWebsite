@@ -4,105 +4,52 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    IEnumerable<Product> productsList = ViewData["productList"] as IEnumerable<Product>;
+    IEnumerable<Cart> cartsList = ViewData["cartList"] as IEnumerable<Cart>;
     string[] daysweek = new string [] { "monday", "tuesday", "wednesday", "thursday", "friday" };
     Mathfunctions mylogic = new Mathfunctions();
 }
 
-<div class="slider">
-    <div class="slide active">
-        <img src="~/images/homeslide2.jpg" alt="">
-        <div class="info">
-            <h2>Computers</h2>
-            <p>Get the latest PC's in gaming, development or personal use</p>
-            <div class="slider-buttons">
-                <a asp-area="" asp-controller="Home" asp-action="Computers">Shop Now</a>
-            </div>
-        </div>
-    </div>
-    <div class="slide">
-        <img src="~/images/homeslide4.jpg" alt="">
-        <div class="info">
-            <h2>Gaming</h2>
-            <p>Sony, Microsoft and Nintendo </p>
-            <div class="slider-buttons">
-                <a asp-area="" asp-controller="Home" asp-action="Gaming">Shop Now</a>
-            </div>
-        </div>
-    </div>
-    <div class="slide">
-        <img src="~/images/homeslide3.jpg" alt="">
-        <div class="info">
-            <h2>Phones</h2>
-            <p>Stylish, Modern and Affordable Smartphones </p>
-            <div class="slider-buttons">
-                <a asp-area="" asp-controller="Home" asp-action="Phones">Shop Now</a>
-            </div>
-        </div>
-    </div>
-    <div class="slide">
-        <img src="~/images/homeslide5.jpg" alt="">
-        <div class="info">
-            <h2>Televisions</h2>
-            <p>Ultra HD Modern and Extreme Realism Quality</p>
-            <div class="slider-buttons">
-                <a asp-area="" asp-controller="Home" asp-action="Phones">Shop Now</a>
-            </div>
-        </div>
-    </div>
-    <div class="slide">
-        <img src="~/images/homeslide6.jpg" alt="">
-        <div class="info">
-            <h2>Toys</h2>
-            <p>Awaken the inner kid in you </p>
-            <div class="slider-buttons">
-                <a asp-area="" asp-controller="Home" asp-action="Phones">Shop Now</a>
-            </div>
-        </div>
-    </div>
-    <div class="slider-nav">
-        <div class="btn active"></div>
-        <div class="btn"></div>
-        <div class="btn"></div>
-        <div class="btn"></div>
-        <div class="btn"></div>
-    </div>
-</div>
+<partial name="_MainSlider" />
 
 <div class="confidence-panel">
     <h3>Shop with Confidence</h3>
     <p>At Ecom.com we aim to get our products shipped to our customers with speed and care. Ensuring our products are in perfect condition before sending them off so that every customer is a happy customer.</p>
 </div>
 
-@if(Model != null){
+@if(productsList != null){
     <div class="trending-products">
         <h3>Best Sellers</h3>
         <div class="featured-panel">
             <div class="row">
-                @foreach(var data in Model)
+                @foreach(Product product in productsList)
                 {
                     <div class="featured-product col-6 col-sm-5 col-md-3">
                         <div class="icon">
-                            <img src="~/images/@data.image">
+                            @if(@product.discount > 0){
+                                <div class="discount-label">-%@product.discount</div>
+                            }
+                            <img src="~/images/@product.image">
                         </div>
                         <div class="featured-description">
                             <div class="featured-title">
-                                @data.product_name
+                                @product.product_name
                             </div>
                             <div class="featured-price">
-                                @if(@data.discount > 0){ //if the product has a discount it will show the new price and old price.
+                                @if(@product.discount > 0){ //if the product has a discount it will show the new price and old price.
                                     <div class="new-price">
                                         <div class="money-sign">£</div>
-                                        <div>@mylogic.discounted_price(@data.discount, @data.price)</div>
-                                        <div class="money-sign">.@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                                        <div>@mylogic.discounted_price(@product.discount, @product.price)</div>
+                                        <div class="money-sign">.@mylogic.discounted_price_cents(@product.discount, @product.price)</div>
                                     </div>
-                                    <div class="old-price">£@data.price</div>
+                                    <div class="old-price">£@product.price</div>
                                 }
                                 else
                                 {
                                     <div class="new-price">
                                         <div class="money-sign">£</div>
-                                        <div>@mylogic.discounted_price(@data.discount, @data.price)</div>
-                                        <div class="money-sign">.@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                                        <div>@mylogic.discounted_price(@product.discount, @product.price)</div>
+                                        <div class="money-sign">.@mylogic.discounted_price_cents(@product.discount, @product.price)</div>
                                     </div>
                                 }
                             </div>
@@ -121,7 +68,9 @@
                     <div class="details">
                         <h5>Computers</h5>
                         <div class="para">Apple / HP / Dell</div>
-                        <div class="category-button">Shop Now</div>
+                        <a asp-area="" asp-controller="Home" asp-action="Computers">
+                            <div class="category-button">Shop Now</div>
+                        </a>
                     </div>
                     <div class="icon">
                         <img src="~/images/alien.png">
@@ -133,7 +82,9 @@
                     <div class="details">
                         <h5>Gaming</h5>
                         <div class="para">Sony / Microsoft / Nintendo</div>
-                        <div class="category-button">Shop Now</div>
+                        <a asp-area="" asp-controller="Home" asp-action="Gaming">
+                            <div class="category-button">Shop Now</div>
+                        </a>
                     </div>
                     <div class="icon">
                         <img src="~/images/ps5.png">
@@ -145,7 +96,9 @@
                     <div class="details">
                         <h5>Phones</h5>
                         <div class="para">Samsung / Iphone / Huawei</div>
-                        <div class="category-button">Shop Now</div>
+                        <a asp-area="" asp-controller="Home" asp-action="Phones">
+                            <div class="category-button">Shop Now</div>
+                        </a>
                     </div>
                     <div class="icon">
                         <img src="~/images/sam.jpg">
@@ -157,7 +110,9 @@
                     <div class="details">
                         <h5>Televisions</h5>
                         <div class="para">Sony / LG / Apple</div>
-                        <div class="category-button">Shop Now</div>
+                        <a asp-area="" asp-controller="Home" asp-action="Televisions">
+                            <div class="category-button">Shop Now</div>
+                        </a>
                     </div>
                     <div class="icon">
                         <img src="~/images/tele.jpg">
@@ -169,7 +124,9 @@
                     <div class="details">
                         <h5>Toys</h5>
                         <div class="para">Drones / Cars / Boats</div>
-                        <div class="category-button">Shop Now</div>
+                        <a asp-area="" asp-controller="Home" asp-action="Toys">
+                            <div class="category-button">Shop Now</div>
+                        </a>
                     </div>
                     <div class="icon">
                         <img src="~/images/drone.jpg">

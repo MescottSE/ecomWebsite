@@ -11,5 +11,7 @@ namespace ecom.Data
         {
         }
         public DbSet<ecom.Models.Product> Product { get; set; }
+        public DbSet<ecom.Models.User> User { get; set; }
+        public DbSet<ecom.Models.Cart> Cart { get; set; }
     }
 }

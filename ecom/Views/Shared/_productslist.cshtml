@@ -1,0 +1,40 @@
+﻿@using ecom.CustomLogic;
+@model IEnumerable<ecom.Models.Product>
+
+@{
+    var page1 = ViewData["Title"];
+    Mathfunctions mylogic = new Mathfunctions();
+}
+
+    @foreach(var data in Model)
+    {
+            <div class="category-product">
+                <div class="icon">
+                    <img src="~/images/@data.image">
+                </div>
+                <div class="details">
+                    <div class="heading">@data.product_name</div>
+                    <div class="description">@data.description</div>
+                    <div class="stock"><span>@data.quantity</span> left in stock</div>
+                    <div class="category-end">
+                        @if(@data.discount > 0){ //if the product has a discount it will show the new price and old price.
+                            <div class="old-price">£@data.price</div>
+                            <div class="new-price">
+                                <div class="money-sign">£</div>
+                                <div class="bold-me">@mylogic.discounted_price(@data.discount, @data.price)</div>
+                                <div class="money-sign">.@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="new-price">
+                                <div class="money-sign">£</div>
+                                <div class="bold-me">@mylogic.discounted_price(@data.discount, @data.price)</div>
+                                <div class="money-sign">.@mylogic.discounted_price_cents(@data.discount, @data.price)</div>
+                            </div>
+                        }
+                        <div class="category-add-to-basket">Add to Basket</div>
+                    </div>
+                </div>
+            </div>
+    }

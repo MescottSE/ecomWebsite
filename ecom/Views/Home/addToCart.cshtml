@@ -1,0 +1,9 @@
+﻿@model ecom.Models.Product
+
+@{
+    IEnumerable<Product> prods = ViewData["productList"] as IEnumerable<Product>;
+}
+
+@foreach(Product product in prods){
+    <h2>@product.product_name</h2>
+}

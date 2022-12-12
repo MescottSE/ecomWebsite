@@ -1,0 +1,19 @@
+﻿
+@{
+    IEnumerable<Cart> cartList = ViewData["cartList"] as IEnumerable<Cart>;
+
+    var cartCount = 0;
+        
+        //foreach(Cart cart in cartList)
+        //{
+        //    if (cart.customer_id == 1)
+        //    {   
+        //        cartCount++;
+        //    }
+        //}
+}
+
+<div class="cart">
+    <div class="my-cart"><a asp-area="" asp-controller="Home" asp-action="addToCart">My Cart</a></div>
+    <div class="cart-count">@cartCount</div>
+</div>

@@ -1,8 +1,12 @@
-﻿using ecom.Models;
+﻿
+using ecom.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ecom.Controllers
 {
@@ -15,8 +19,14 @@ namespace ecom.Controllers
         SqlConnection dbConnection = new SqlConnection();
         List<Product> productsList = new List<Product>();
         List<Cart> cartList = new List<Cart>();
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor context)
+        private static UserManager<IdentityUser> _UserManager;
+        private readonly SignInManager<IdentityUser> _SignInManager;
+
+        private String queryCart = $"SELECT * FROM cart ";
+
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor context, UserManager<IdentityUser> userManager)
         {
+            _UserManager = userManager;
             _logger = logger;
             dbConnection.ConnectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-ecom-0035D4FD-FB3B-4E0E-9AC8-877EB8521E9E;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             _contextAccessor = context;
@@ -24,9 +34,8 @@ namespace ecom.Controllers
 
         public async Task<IActionResult> Index()
         {
-
             fetchproductsList("SELECT TOP 4 * FROM product ORDER BY discount DESC");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             ViewData["productList"] = productsList;
             return View();
@@ -52,7 +61,7 @@ namespace ecom.Controllers
                     {
                         Id = Convert.ToInt32(sqlReader["Id"]),
                         product_id = Convert.ToInt32(sqlReader["product_id"]),
-                        customer_id = Convert.ToInt32(sqlReader["customer_id"])
+                        customer_id = sqlReader["customer_id"].ToString()
 
                     });
                 }
@@ -104,10 +113,15 @@ namespace ecom.Controllers
             return View();
         }
 
+
+        [Authorize]
         public IActionResult addToCart()
         {
-            fetchproductsList("SELECT * FROM product INNER JOIN cart ON product.id = cart.product_id");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            ViewBag.userId = _UserManager.GetUserId(HttpContext.User);
+            var query = $"SELECT * FROM product INNER JOIN cart ON (product.id = cart.product_id) INNER JOIN AspNetUsers ON (cart.customer_id = AspNetUsers.id) WHERE AspNetUsers.id = '{ViewBag.userId}'";
+            fetchproductsList(query);
+
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             ViewData["productList"] = productsList;
             return View();
@@ -115,7 +129,7 @@ namespace ecom.Controllers
         public IActionResult AllproductsList()
         {
             fetchproductsList("Select * From product");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             return View("AllProducts", productsList);
         }
@@ -123,7 +137,7 @@ namespace ecom.Controllers
         public IActionResult Computers()
         {
             fetchproductsList("Select * From Product Where category = 'Computers'");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             return View(productsList);
         }
@@ -131,7 +145,7 @@ namespace ecom.Controllers
         public IActionResult Gaming()
         {
             fetchproductsList("Select * From product Where category = 'Gaming'");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             return View(productsList);
         }
@@ -139,7 +153,7 @@ namespace ecom.Controllers
         public IActionResult Phones()
         {
             fetchproductsList("Select * From product Where category = 'Phones'");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             return View(productsList);
         }
@@ -147,7 +161,7 @@ namespace ecom.Controllers
         public IActionResult Televisions()
         {
             fetchproductsList("Select * From product Where category = 'Televisions'");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             return View(productsList);
         }
@@ -155,7 +169,7 @@ namespace ecom.Controllers
         public IActionResult Toys()
         {
             fetchproductsList("Select * From product Where category = 'Toys'");
-            fetchCarts("SELECT * FROM cart WHERE customer_id = 1");
+            fetchCarts(queryCart);
             ViewData["cartList"] = cartList;
             return View(productsList);
         }

@@ -9,6 +9,6 @@ namespace ecom.Models
         [Key]
         public int Id { get; set; }
         public int product_id { get; set; }
-        public int customer_id { get; set; }
+        public String customer_id { get; set; }
     }
 }

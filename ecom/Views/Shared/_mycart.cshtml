@@ -1,16 +1,19 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager;
+
 @{
     IEnumerable<Cart> cartList = ViewData["cartList"] as IEnumerable<Cart>;
 
     var cartCount = 0;
-        
-        //foreach(Cart cart in cartList)
-        //{
-        //    if (cart.customer_id == 1)
-        //    {   
-        //        cartCount++;
-        //    }
-        //}
+    var userId = UserManager.GetUserId(User);
+
+        foreach(Cart cart in cartList)
+        {
+            if (cart.customer_id == userId)
+            {   
+                cartCount++;
+            }
+        }
 }
 
 <div class="cart">

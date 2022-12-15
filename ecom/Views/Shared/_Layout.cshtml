@@ -4,6 +4,7 @@
 
 @{
     var userId = UserManager.GetUserId(User);
+    var userSignedIn = SignInManager.IsSignedIn(User);
 }
 
 <!DOCTYPE html>
@@ -33,8 +34,10 @@
         </nav>
     </header>
     <div class="sub-nav">
-        <partial name="_mycart"/>
-        <h3>User id is : @userId</h3>
+        @if (@userSignedIn)
+        {
+            <partial name="_mycart"/>
+        }
     </div>
     <div class="container">
         <main role="main" class="pb-3">
